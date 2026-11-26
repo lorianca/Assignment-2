@@ -1,5 +1,5 @@
-** Write the code examples you have seen in Lab-5. Explain each one
-and what it does.**
+##Write the code examples you have seen in Lab-5. Explain each one
+and what it does 
 
 #include <stdio.h>
 #include <unistd.h>
