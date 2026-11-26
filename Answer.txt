@@ -1,19 +1,24 @@
 ##  1 - Write the code examples you have seen in Lab-5. Explain each one
 and what it does 
 
-#include <stdio.h>
+#first code 
+ #include <stdio.h>
 #include <unistd.h>
 int main() {
 pid_t pid = fork(); 
-" fork() : create new prosses from current prosses" 
+" fork() : create new process from current process" 
+
 if (pid == 0) {
-" pid ==0 -> therefor it is child"
+" pid ==0 -> therefore it is child"
+
 printf("This is the child process. PID: %d\n", getpid());
 } else if (pid > 0) {
-" pid >0 -> therefor it is parent "
+" pid >0 -> therefore it is parent "
+
 printf("This is the parent process. PID: %d\n", getpid());
 } else {
 "else failed " 
+
 printf("Fork failed!\n");
 }
 return 0;
@@ -21,5 +26,67 @@ return 0;
 
 gcc process_creation.c -o process_creation
 ./process_creation
+" gcc -> compiler for c language
+" process_creation.c -> current file with c language  (c source code file) 
+" -o -> names the output executable process_creation
+" ./process_creatio -> run excutable file from current "
 
+
+#second code 
+sleep 300 & -> wait  for 300 sec in the backgraound
+
+jobs -> list the process runs in the background 
+
+ps aux | grep sleep ->  list all process then search for sleep to get pid
+
+kill <PID> -> stop the current process
+
+ps aux | grep sleep -> to check that the process stop 
+
+kill -STOP <PID> -> pause the process for period of time
+
+kill -CONT <PID> -> resume the process again 
+
+# third code 
+#include <stdio.h>
+void hello() {
+printf("Hello from file1!\n");
+} 
+"create method hello  in file 1  which print " Hello from file1!\n "  using printf" 
+
+void hello(); 
+"declares the hello function so the compiler knows its signature before main() calls it.
+int main() {
+hello();
+"call the function the defines in file 1 , linker connect the call by its main function  in file1 " 
+return 0;
+} 
+
+gcc file1.c file2.c -o output_program
+" gcc -> compiler for c language
+" link file1 with file2 with c language to get the output in excutable file"
+./output_program
+" run the excutable file "
+
+# fourth code 
+
+#include <stdio.h>
+int main() {
+printf("This is a simple program.\n");
+return 0;
+}
+" print "This is a simple program.\n using printf " 
+gcc simple_program.c -o simple_program
+" gcc -> compiler for c language
+"  current file with c language  (c source code file) 
+ " -o -> names the output executable simple_program 
+
+ldd simple_program ->  display all dynamic libraries 
+
+
+## 2-  what is the job of the Linker ??
+ linker runs  before the program start combine  the data and code in  one excutable file 
+
+## 3- what is the job of the Loader ??
+loader runs when the program start ,its role to get the excutable file from hard disk to memory 
 
