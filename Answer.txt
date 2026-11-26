@@ -1,15 +1,19 @@
-##Write the code examples you have seen in Lab-5. Explain each one
+##  1 - Write the code examples you have seen in Lab-5. Explain each one
 and what it does 
 
 #include <stdio.h>
 #include <unistd.h>
 int main() {
 pid_t pid = fork(); 
+" fork() : create new prosses from current prosses" 
 if (pid == 0) {
+" pid ==0 -> therefor it is child"
 printf("This is the child process. PID: %d\n", getpid());
 } else if (pid > 0) {
+" pid >0 -> therefor it is parent "
 printf("This is the parent process. PID: %d\n", getpid());
 } else {
+"else failed " 
 printf("Fork failed!\n");
 }
 return 0;
