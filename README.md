@@ -1,10 +1,10 @@
 # Assignment 2 
 
-This repository contains the C source files, `Makefile`, and documentation for  Lab 5, covering process creation, background process control, multi-file linking, dynamic library inspection, and build automation.
+This repository contains the C source files, `Makefile`, and explanations for CSE233 Lab 5, covering process creation, background process management, multi-file linking, dynamic library inspection, and build automation.
 
 ## Installation
 
-Clone or download the repository, then use `make` to compile and link all programs:
+Clone or download the repository, then run `make` to compile all programs:
 
 ```bash
 make
@@ -12,7 +12,7 @@ make
 
 ## Usage
 
-### 1. Run Compiled Programs
+Run the compiled executables:
 
 ```bash
 ./process_creation
@@ -20,117 +20,135 @@ make
 ./simple_program
 ```
 
-### 2. Inspect Dynamic Libraries
+Inspect dynamic libraries:
 
 ```bash
 ldd simple_program
 ```
 
-### 3. Background Process Management
+## 1. Lab 5 Code Examples and Explanations
 
-```bash
-sleep 300 &          # Run sleep for 300 seconds in the background
-jobs                 # List background jobs in the current shell
-ps aux | grep sleep  # List processes and filter for sleep to find its PID
-kill <PID>           # Terminate the process with the given PID
-ps aux | grep sleep  # Verify the process status after termination
-kill -STOP <PID>     # Pause (stop) the process temporarily
-kill -CONT <PID>     # Resume a paused process
+### First Code: Process Creation (`process_creation.c`)
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    pid_t pid = fork(); // fork(): creates a new process from the current process
+
+    if (pid == 0) {
+        // pid == 0 -> therefore it is the child process
+        printf("This is the child process. PID: %d\n", getpid());
+    } else if (pid > 0) {
+        // pid > 0 -> therefore it is the parent process
+        printf("This is the parent process. PID: %d\n", getpid());
+    } else {
+        // Negative value -> fork failed
+        printf("Fork failed!\n");
+    }
+    return 0;
+}
 ```
 
-## Lab 5 Code Examples and Explanations
+Compile and run:
 
-##  1 - Write the code examples you have seen in Lab-5. Explain each one
-and what it does 
-
-#first code 
- #include <stdio.h>
-#include <unistd.h>
-int main() {
-pid_t pid = fork(); 
-" fork() : create new process from current process" 
-
-if (pid == 0) {
-" pid ==0 -> therefore it is child"
-
-printf("This is the child process. PID: %d\n", getpid());
-} else if (pid > 0) {
-" pid >0 -> therefore it is parent "
-
-printf("This is the parent process. PID: %d\n", getpid());
-} else {
-"else failed " 
-
-printf("Fork failed!\n");
-}
-return 0;
-}
-
+```bash
 gcc process_creation.c -o process_creation
 ./process_creation
-" gcc -> compiler for c language
-" process_creation.c -> current file with c language  (c source code file) 
-" -o -> names the output executable process_creation
-" ./process_creatio -> run excutable file from current "
+```
 
+* `gcc`: Compiler for the C language.
+* `process_creation.c`: The C source code file.
+* `-o process_creation`: Names the output executable `process_creation`.
+* `./process_creation`: Runs the executable file from the current directory.
 
-#second code 
-sleep 300 & -> wait  for 300 sec in the backgraound
+---
 
-jobs -> list the process runs in the background 
+### Second Code: Background Processes and Signals
 
-ps aux | grep sleep ->  list all process then search for sleep to get pid
+```bash
+sleep 300 &          # Wait for 300 seconds in the background
+jobs                 # List processes running in the background
+ps aux | grep sleep  # List all processes and search for sleep to get its PID
+kill <PID>           # Stop (terminate) the current process
+ps aux | grep sleep  # Check that the process has stopped
+kill -STOP <PID>     # Pause the process for a period of time
+kill -CONT <PID>     # Resume the process again
+```
 
-kill <PID> -> stop the current process
+---
 
-ps aux | grep sleep -> to check that the process stop 
+### Third Code: Multi-File Linking (`file1.c` and `file2.c`)
 
-kill -STOP <PID> -> pause the process for period of time
+**`file1.c`:** Creates the function `hello()` which prints `"Hello from file1!\n"` using `printf`.
 
-kill -CONT <PID> -> resume the process again 
-
-# third code 
+```c
 #include <stdio.h>
+
 void hello() {
-printf("Hello from file1!\n");
-} 
-"create method hello  in file 1  which print " Hello from file1!\n "  using printf" 
-
-void hello(); 
-"declares the hello function so the compiler knows its signature before main() calls it.
-int main() {
-hello();
-"call the function the defines in file 1 , linker connect the call by its main function  in file1 " 
-return 0;
-} 
-
-gcc file1.c file2.c -o output_program
-" gcc -> compiler for c language
-" link file1 with file2 with c language to get the output in excutable file"
-./output_program
-" run the excutable file "
-
-# fourth code 
-
-#include <stdio.h>
-int main() {
-printf("This is a simple program.\n");
-return 0;
+    printf("Hello from file1!\n");
 }
-" print "This is a simple program.\n using printf " 
+```
+
+**`file2.c`:** Declares `hello()` so the compiler knows its signature before `main()` calls it, and calls the function defined in `file1.c` (the linker connects the call to its definition in `file1.c`).
+
+```c
+#include <stdio.h>
+
+void hello();
+
+int main() {
+    hello();
+    return 0;
+}
+```
+
+Compile, link, and run:
+
+```bash
+gcc file1.c file2.c -o output_program
+./output_program
+```
+
+* `gcc`: Compiler for the C language.
+* `file1.c file2.c -o output_program`: Links `file1.c` with `file2.c` to produce the executable file `output_program`.
+* `./output_program`: Runs the executable file.
+
+---
+
+### Fourth Code: Simple Program & Dynamic Libraries (`simple_program.c`)
+
+Prints `"This is a simple program.\n"` using `printf`.
+
+```c
+#include <stdio.h>
+
+int main() {
+    printf("This is a simple program.\n");
+    return 0;
+}
+```
+
+Compile and inspect libraries:
+
+```bash
 gcc simple_program.c -o simple_program
-" gcc -> compiler for c language
-"  current file with c language  (c source code file) 
- " -o -> names the output executable simple_program 
+ldd simple_program
+```
 
-ldd simple_program ->  display all dynamic libraries 
+* `gcc`: Compiler for the C language.
+* `simple_program.c`: The C source code file.
+* `-o simple_program`: Names the output executable `simple_program`.
+* `ldd simple_program`: Displays all dynamic libraries required by the executable.
 
+---
 
-## 2-  what is the job of the Linker ??
- linker runs  before the program start combine  the data and code in  one excutable file 
+## 2. What is the job of the Linker?
+The linker runs before the program starts to combine the data and code (object files and libraries) into one single executable file.
 
-## 3- what is the job of the Loader ??
-loader runs when the program start ,its role to get the excutable file from hard disk to memory 
+## 3. What is the job of the Loader?
+The loader runs when the program starts; its role is to load the executable file from the hard disk into memory so it can begin execution.
 
 ## Contributing
 
