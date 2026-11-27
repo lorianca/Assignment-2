@@ -1,6 +1,6 @@
 # Assignment 2 
 
-This repository contains the C source files, `Makefile`, and explanations for CSE233 Lab 5, covering process creation, background process management, multi-file linking, dynamic library inspection, and build automation.
+This repository contains the C source files, `Makefile`, and explanations for Lab 5, covering process creation, background process management, multi-file linking, dynamic library inspection, and build automation.
 
 ## Installation
 
