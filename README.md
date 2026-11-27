@@ -40,96 +40,97 @@ kill -CONT <PID>     # Resume a paused process
 
 ## Lab 5 Code Examples and Explanations
 
-### 1. Process Creation (`process_creation.c`)
-Creates a child process using `fork()` and prints different messages depending on whether the return value (`pid`) is `0` (child process), greater than `0` (parent process), or negative (failure).
+##  1 - Write the code examples you have seen in Lab-5. Explain each one
+and what it does 
 
-```c
-#include <stdio.h>
+#first code 
+ #include <stdio.h>
 #include <unistd.h>
-
 int main() {
-    pid_t pid = fork(); // Creates a new process from the current process
+pid_t pid = fork(); 
+" fork() : create new process from current process" 
 
-    if (pid == 0) {
-        // pid == 0 indicates the child process
-        printf("This is the child process. PID: %d\n", getpid());
-    } else if (pid > 0) {
-        // pid > 0 indicates the parent process
-        printf("This is the parent process. PID: %d\n", getpid());
-    } else {
-        // Negative value indicates fork() failure
-        printf("Fork failed!\n");
-    }
-    return 0;
+if (pid == 0) {
+" pid ==0 -> therefore it is child"
+
+printf("This is the child process. PID: %d\n", getpid());
+} else if (pid > 0) {
+" pid >0 -> therefore it is parent "
+
+printf("This is the parent process. PID: %d\n", getpid());
+} else {
+"else failed " 
+
+printf("Fork failed!\n");
 }
-```
+return 0;
+}
 
-Compile and run:
-```bash
 gcc process_creation.c -o process_creation
 ./process_creation
-```
-* `gcc`: C compiler.
-* `process_creation.c`: C source file.
-* `-o process_creation`: Names the output executable `process_creation`.
-* `./process_creation`: Runs the executable from the current directory.
+" gcc -> compiler for c language
+" process_creation.c -> current file with c language  (c source code file) 
+" -o -> names the output executable process_creation
+" ./process_creatio -> run excutable file from current "
 
-### 2. Multi-File Compilation and Linking (`file1.c` and `file2.c`)
-Defines a function in one source file and calls it from another file containing `main()`.
 
-```c
-// file1.c
+#second code 
+sleep 300 & -> wait  for 300 sec in the backgraound
+
+jobs -> list the process runs in the background 
+
+ps aux | grep sleep ->  list all process then search for sleep to get pid
+
+kill <PID> -> stop the current process
+
+ps aux | grep sleep -> to check that the process stop 
+
+kill -STOP <PID> -> pause the process for period of time
+
+kill -CONT <PID> -> resume the process again 
+
+# third code 
 #include <stdio.h>
-
 void hello() {
-    printf("Hello from file1!\n");
-}
-```
+printf("Hello from file1!\n");
+} 
+"create method hello  in file 1  which print " Hello from file1!\n "  using printf" 
 
-```c
-// file2.c
-#include <stdio.h>
-
-void hello(); // Function declaration so the compiler knows its signature before main() calls it
-
+void hello(); 
+"declares the hello function so the compiler knows its signature before main() calls it.
 int main() {
-    hello(); // Calls hello() defined in file1.c; the linker resolves the reference
-    return 0;
-}
-```
+hello();
+"call the function the defines in file 1 , linker connect the call by its main function  in file1 " 
+return 0;
+} 
 
-Compile, link, and run:
-```bash
 gcc file1.c file2.c -o output_program
+" gcc -> compiler for c language
+" link file1 with file2 with c language to get the output in excutable file"
 ./output_program
-```
-* `gcc file1.c file2.c -o output_program`: Compiles both source files and links them into the `output_program` executable.
-* `./output_program`: Runs the resulting executable.
+" run the excutable file "
 
-### 3. Simple Program and Dynamic Libraries (`simple_program.c`)
-A basic program used to check shared library dependencies with `ldd`.
+# fourth code 
 
-```c
 #include <stdio.h>
-
 int main() {
-    printf("This is a simple program.\n");
-    return 0;
+printf("This is a simple program.\n");
+return 0;
 }
-```
-
-Compile and check dynamic libraries:
-```bash
+" print "This is a simple program.\n using printf " 
 gcc simple_program.c -o simple_program
-ldd simple_program
-```
-* `gcc simple_program.c -o simple_program`: Compiles `simple_program.c` into an executable named `simple_program`.
-* `ldd simple_program`: Displays the dynamic (shared) libraries required by the executable.
+" gcc -> compiler for c language
+"  current file with c language  (c source code file) 
+ " -o -> names the output executable simple_program 
 
-## Questions
+ldd simple_program ->  display all dynamic libraries 
 
-* **Job of the Linker:** Runs after compilation and before program execution to combine object files and required libraries, resolve function and variable references across files, and produce a single executable file.
-* **Job of the Loader:** Runs when a program starts to load the executable file from disk into memory, set up its memory segments, and transfer control to the entry point to begin execution.
+
+## 2-  what is the job of the Linker ??
+ linker runs  before the program start combine  the data and code in  one excutable file 
+
+## 3- what is the job of the Loader ??
+loader runs when the program start ,its role to get the excutable file from hard disk to memory 
 
 ## Contributing
 
