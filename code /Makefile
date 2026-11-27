@@ -1,17 +1,10 @@
-
-CC = gcc
-CFLAGS = -Wall
-
-all: process_creation output_program simple_program
+all: process_creation simple_program output_program
 
 process_creation: process_creation.c
-	$(CC) $(CFLAGS) process_creation.c -o process_creation
-
-output_program: file1.c file2.c
-	$(CC) $(CFLAGS) file1.c file2.c -o output_program
+	gcc process_creation.c -o process_creation
 
 simple_program: simple_program.c
-	$(CC) $(CFLAGS) simple_program.c -o simple_program
+	gcc simple_program.c -o simple_program
 
-clean:
-	rm -f process_creation output_program simple_program
+output_program: file1.c file2.c
+	gcc file1.c file2.c -o output_program
